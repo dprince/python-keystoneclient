@@ -8,7 +8,12 @@ from keystoneclient.openstack.common import setup
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-requires = setup.parse_requirements()
+requirements = ['httplib2', 'prettytable']
+if sys.version_info < (2, 6):
+    requirements.append('simplejson')
+if sys.version_info < (2, 7):
+    requirements.append('argparse')
+
 depend_links = setup.parse_dependency_links()
 tests_require = setup.parse_requirements(['tools/test-requires'])
 
@@ -31,7 +36,7 @@ setuptools.setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
     ],
-    install_requires=requires,
+    install_requires=requirements,
     dependency_links=depend_links,
     cmdclass=setup.get_cmdclass(),
 
